@@ -6,25 +6,6 @@ The Github URL of this Lab: https://github.com/DihangWU/EIE575_Lab.git
 
 This experiment refers to the tutorial PDFs, but the environment was replaced from Windows to Linux after completing the experiment in class, and minor modifications were made.
 
-## Commands
-
-Run all commands from the project root directory. Each command name identifies the lab and the tool or interface being used. Run `make` or `make help` to display the available commands.
-
-| Command | Tool / Interface | What It Does |
-|---|---|---|
-| `make lab1-netconvert` | SUMO `netconvert` | Generate `Lab1/lab1.net.xml` if its inputs have changed or the network is missing. |
-| `make lab1-sumo` | SUMO `sumo` | Run Lab1 without a graphical window. |
-| `make lab1-sumo-gui` | SUMO `sumo-gui` | Open the Lab1 traffic simulation with the `real world` display scheme and a 100ms delay. |
-| `make lab2-opp-nedtool` | OMNeT++ `opp_nedtool` | Validate the Lab2 NED files and check that the compiled Veins library exists. |
-| `make lab2-build` | `opp_makemake`, Make, and the C++ compiler | Generate the Lab2 build Makefile if needed and compile the local shared library. |
-| `make lab2-veins-launchd-sumo` | Veins `veins_launchd` + `sumo` | Start the proxy on port 9999; SUMO will run in the background when a simulation connects. |
-| `make lab2-veins-launchd-sumo-gui` | Veins `veins_launchd` + `sumo-gui` | Start the proxy on port 9999; SUMO will open a traffic window when a simulation connects. |
-| `make lab2-omnetpp-cmdenv` | OMNeT++ Cmdenv, started through `veins_run` | Build and run the Lab2 joint simulation without an OMNeT++ graphical window. |
-| `make lab2-omnetpp-qtenv` | OMNeT++ Qtenv, started through `veins_run` | Build and open the Lab2 joint simulation in the OMNeT++ graphical window. |
-| `make lab2-opp-charttool` | OMNeT++ `opp_charttool` | Export the existing `General` result charts to `Lab2/results/plots/`. |
-
-The Lab1 run commands automatically check the road network. The Lab2 simulation commands automatically check and build the project, but require a running proxy. Opening a GUI or starting the proxy keeps its terminal occupied until that program exits.
-
 ## The Development Environment
 
 | Tools | Version | Local Path |
