@@ -1,0 +1,30 @@
+<routes>
+    <vType id="1" accel="2.6" decel="4.5" sigma="0" length="10" minGap="3" maxSpeed="60" color="1,1,0" guiShape="bus"/>
+    <vType id="2" accel="1.0" decel="5.0" sigma="0.0" length="2.0" maxSpeed="100.0" color="1,0,0" />
+
+    <route id="route0" edges="1to2 2to1">
+        <stop busStop="1" duration="20"/>
+        <stop busStop="2" duration="20"/>
+    </route>
+
+    <vehicle id="KMB_1" color="1,1,0" route="route0" depart="0" type="1"/>
+    <flow id="car_route" color="1,0,0"  begin="0" end="50" period="10" type="2">
+        <route edges="1to2 2to1"/>
+    </flow>
+    <vehicle id="KMB_2" color="1,1,0" route="route0" depart="51" type="1"/>
+    <flow id="car_route1" color="1,0,0" begin="52" end= "100" period="10" type="2">
+        <route edges="1to2 2to1"/>
+    </flow>
+    <vehicle id="KMB_3" color="1,1,0" route="route0" depart="101" type="1"/>
+    <flow id="car_route2" color="1,0,0" begin="102" end="150" period="10" type="2">
+        <route edges="1to2 2to1"/>
+    </flow>
+    <vehicle id="KMB_4" color="1,1,0" route="route0" depart="151" type="1"/>
+    <flow id="car_route3" color="1,0,0" begin="152" end="200" period="10" type="2">
+        <route edges="1to2 2to1"/>
+    </flow>
+    <vehicle id="KMB_5" color="1,1,0" route="route0" depart="201" type="1"/>
+    <flow id="car_route4" color="1,0,0" begin="202" end="250" period="10" type="2">
+        <route edges="1to2 2to1"/>
+    </flow>
+</routes>

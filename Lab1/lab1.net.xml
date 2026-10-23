@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 2026-10-23 14:21:11 by Eclipse SUMO netconvert Version 1.22.0
+<netconvertConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/netconvertConfiguration.xsd">
+
+    <input>
+        <node-files value="lab1.nod.xml"/>
+        <edge-files value="lab1.edg.xml"/>
+        <connection-files value="lab1.conn.xml"/>
+    </input>
+
+    <output>
+        <output-file value="lab1.net.xml"/>
+    </output>
+
+</netconvertConfiguration>
+-->
+
+<net version="1.20" junctionCornerDetail="5" limitTurnSpeed="5.50" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/net_file.xsd">
+
+    <location netOffset="150.00,0.00" convBoundary="0.00,0.00,200.00,0.00" origBoundary="-150.00,0.00,50.00,0.00" projParameter="!"/>
+
+    <edge id=":1_0" function="internal">
+        <lane id=":1_0_0" index="0" disallow="pedestrian" speed="3.65" length="4.67" shape="0.00,1.60 -1.20,0.80 -1.60,0.00 -1.20,-0.80 0.00,-1.60"/>
+    </edge>
+    <edge id=":1_w0" function="walkingarea">
+        <lane id=":1_w0_0" index="0" allow="pedestrian" speed="2.78" length="13.80" width="1.00" shape="0.00,-6.40 0.00,-7.40 0.00,7.40 0.00,6.40"/>
+    </edge>
+    <edge id=":2_0" function="internal">
+        <lane id=":2_0_0" index="0" disallow="pedestrian" speed="3.65" length="4.67" shape="200.00,-1.60 201.20,-0.80 201.60,0.00 201.20,0.80 200.00,1.60"/>
+    </edge>
+    <edge id=":2_c0" function="crossing" crossingEdges="2to1 1to2">
+        <lane id=":2_c0_0" index="0" allow="pedestrian" speed="2.78" length="12.80" width="1.00" shape="200.50,6.40 200.50,-6.40" outlineShape="200.00,6.50 200.00,-6.50 201.00,-6.40 201.00,6.40"/>
+    </edge>
+    <edge id=":2_w0" function="walkingarea">
+        <lane id=":2_w0_0" index="0" allow="pedestrian" speed="2.78" length="0.71" width="1.00" shape="201.00,6.40 200.00,6.40 200.00,7.40"/>
+    </edge>
+    <edge id=":2_w1" function="walkingarea">
+        <lane id=":2_w1_0" index="0" allow="pedestrian" speed="2.78" length="0.71" width="1.00" shape="200.00,-7.40 200.00,-6.40 201.00,-6.40"/>
+    </edge>
+
+    <edge id="1to2" from="1" to="2" priority="-1">
+        <lane id="1to2_0" index="0" allow="pedestrian" speed="16.67" length="200.00" width="1.00" shape="0.00,-6.90 200.00,-6.90"/>
+        <lane id="1to2_1" index="1" disallow="pedestrian" speed="16.67" length="200.00" shape="0.00,-4.80 200.00,-4.80"/>
+        <lane id="1to2_2" index="2" disallow="pedestrian" speed="16.67" length="200.00" shape="0.00,-1.60 200.00,-1.60"/>
+    </edge>
+    <edge id="2to1" from="2" to="1" priority="-1">
+        <lane id="2to1_0" index="0" allow="pedestrian" speed="16.67" length="200.00" width="1.00" shape="200.00,6.90 0.00,6.90"/>
+        <lane id="2to1_1" index="1" disallow="pedestrian" speed="16.67" length="200.00" shape="200.00,4.80 0.00,4.80"/>
+        <lane id="2to1_2" index="2" disallow="pedestrian" speed="16.67" length="200.00" shape="200.00,1.60 0.00,1.60"/>
+    </edge>
+
+    <junction id="1" type="priority" x="0.00" y="0.00" incLanes="2to1_0 2to1_1 2to1_2" intLanes=":1_0_0" shape="0.00,0.00 0.00,7.40 0.00,0.00">
+        <request index="0" response="0" foes="0" cont="0"/>
+    </junction>
+    <junction id="2" type="priority" x="200.00" y="0.00" incLanes="1to2_0 1to2_1 1to2_2 :2_w0_0" intLanes=":2_0_0 :2_c0_0" shape="200.00,0.00 200.00,-7.40 200.00,0.00">
+        <request index="0" response="10" foes="10" cont="0"/>
+        <request index="1" response="00" foes="01" cont="0"/>
+    </junction>
+
+    <connection from="1to2" to="2to1" fromLane="2" toLane="2" via=":2_0_0" dir="s" state="m" visibility="9.00"/>
+    <connection from="2to1" to="1to2" fromLane="2" toLane="2" via=":1_0_0" dir="s" state="M"/>
+
+    <connection from=":1_0" to="1to2" fromLane="0" toLane="2" dir="s" state="M"/>
+    <connection from=":2_0" to="2to1" fromLane="0" toLane="2" dir="s" state="M"/>
+
+    <connection from=":1_w0" to="1to2" fromLane="0" toLane="0" dir="s" state="M"/>
+    <connection from="2to1" to=":1_w0" fromLane="0" toLane="0" dir="s" state="M"/>
+    <connection from=":2_c0" to=":2_w1" fromLane="0" toLane="0" dir="s" state="M"/>
+    <connection from=":2_w0" to=":2_c0" fromLane="0" toLane="0" dir="s" state="M"/>
+    <connection from=":2_w0" to="2to1" fromLane="0" toLane="0" dir="s" state="M"/>
+    <connection from="1to2" to=":2_w1" fromLane="0" toLane="0" dir="s" state="M"/>
+    <roundabout nodes="1 2" edges="1to2 2to1"/>
+
+</net>
