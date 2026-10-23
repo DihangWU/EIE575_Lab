@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<analysis version="2">
+    <inputs>
+        <input pattern="../results/*.sca"/>
+        <input pattern="../results/*.vec"/>
+    </inputs>
+    <charts>
+        <chart id="1" name="all-vehicle-speed" type="MATPLOTLIB" template="" resultTypes="vector">
+            <script><![CDATA[
+import matplotlib.pyplot as plt
+from omnetpp.scave import chart, results, utils
+
+df = results.get_vectors('runattr:configname =~ General AND name =~ speed')
+if df.empty:
+    raise chart.ChartScriptError("Run make -f commands.mk lab2-omnetpp-cmdenv from Lab2/support first.")
+for row in df.itertuples():
+    plt.plot(row.vectime, row.vecvalue, linewidth=0.9, alpha=0.8)
+plt.title("General: vehicle speeds")
+plt.xlabel("Simulation time (s)")
+plt.ylabel("Speed (m/s)")
+plt.xlim(0, 300)
+plt.ylim(bottom=0)
+plt.grid(alpha=0.25)
+plt.tight_layout()
+utils.export_image_if_needed(chart.get_properties())
+]]></script>
+            <property name="image_export_width" value="9"/>
+            <property name="image_export_height" value="4.5"/>
+        </chart>
+        <chart id="2" name="node0-speed" type="MATPLOTLIB" template="" resultTypes="vector">
+            <script><![CDATA[
+import matplotlib.pyplot as plt
+from omnetpp.scave import chart, results, utils
+
+df = results.get_vectors('runattr:configname =~ General AND name =~ speed AND module =~ "hello.node[0].veinsmobility"')
+if df.empty:
+    raise chart.ChartScriptError("Run make -f commands.mk lab2-omnetpp-cmdenv from Lab2/support first.")
+for row in df.itertuples():
+    plt.plot(row.vectime, row.vecvalue, color="#2458a6", linewidth=1.6)
+plt.title("General: node[0] speed")
+plt.xlabel("Simulation time (s)")
+plt.ylabel("Speed (m/s)")
+plt.ylim(bottom=0)
+plt.grid(alpha=0.25)
+plt.tight_layout()
+utils.export_image_if_needed(chart.get_properties())
+]]></script>
+            <property name="image_export_width" value="9"/>
+            <property name="image_export_height" value="4.5"/>
+        </chart>
+        <chart id="3" name="bsm-counts" type="MATPLOTLIB" template="" resultTypes="scalar">
+            <script><![CDATA[
+import re
+import numpy as np
+import matplotlib.pyplot as plt
+from omnetpp.scave import chart, results, utils
+
+df = results.get_scalars('runattr:configname =~ General AND (name =~ generatedBSMs OR name =~ receivedBSMs)')
+if df.empty:
+    raise chart.ChartScriptError("Run make -f commands.mk lab2-omnetpp-cmdenv from Lab2/support first.")
+counts = df.pivot(index="module", columns="name", values="value")
+def module_order(module):
+    match = re.search(r"node\[(\d+)\]", module)
+    return int(match.group(1)) if match else 1000000
+counts = counts.loc[sorted(counts.index, key=module_order)]
+labels = [re.search(r"node\[(\d+)\]", m).group(1) if "node[" in m else "RSU" for m in counts.index]
+x = np.arange(len(counts))
+plt.bar(x - 0.2, counts["generatedBSMs"], width=0.4, label="Generated")
+plt.bar(x + 0.2, counts["receivedBSMs"], width=0.4, label="Received")
+plt.xticks(x, labels, rotation=45)
+plt.title("General: BSM counts by application")
+plt.xlabel("Vehicle node index / RSU")
+plt.ylabel("BSM count")
+plt.legend()
+plt.grid(axis="y", alpha=0.25)
+plt.tight_layout()
+utils.export_image_if_needed(chart.get_properties())
+]]></script>
+            <property name="image_export_width" value="11"/>
+            <property name="image_export_height" value="4.5"/>
+        </chart>
+    </charts>
+</analysis>

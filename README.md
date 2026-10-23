@@ -262,3 +262,251 @@ Click the SUMO run button to start. This command automatically generates the roa
 ![alt text](report/images/image2_Lab1.png)
 
 ## Lab2
+
+The Lab2 simulates a vehicular communication scenario using OMNeT++, Veins, and the SUMO road traffic scenario from Lab1, including:
+* Network configuration: A network named `hello`, with vehicle nodes managed by Veins and one road-side unit (RSU).
+* Traffic synchronization: OMNeT++ communicates with SUMO through TraCI to update the positions and movements of the vehicles.
+* Wireless communication: Vehicles and the RSU use IEEE 802.11p PHY and IEEE 1609.4 MAC models, with periodic basic safety messages (BSMs).
+* Accident configuration: Selected vehicles are instructed to stop temporarily to simulate an accident.
+* Simulation configuration: The simulation runs for up to 300 seconds of simulation time, with a separate configuration for channel switching.
+
+### Project Files
+
+The following files are located in `Lab2/core/`.
+
+| Project Files | Function |
+|---|---|
+| `package.ned` | Defines the NED package of the core network files. |
+| `lab2.ned` | Defines the network and adds one RSU to the Veins scenario. |
+| `omnetpp.ini` | Defines the simulation, TraCI connection, RSU, wireless communication, application, mobility, and accident settings. |
+| `lab2.launchd.xml` | Specifies the SUMO files used when the traffic simulation is launched. |
+| `config.xml` | Defines the radio propagation model and the reception decision model. |
+| `support/` | Contains auxiliary code and configuration for building, running, and analysing Lab2 in the Linux environment. |
+
+#### `package.ned`
+* This file defines the package name used by the NED files in the core directory.
+    ```ned
+    package org.car2x.veins;
+    ```
+    * `package` : declare the namespace of the NED definitions.
+    * `org.car2x.veins` : the package name of this Lab2 network. It is also used in the network selection in `omnetpp.ini`.
+
+#### `lab2.ned`
+* This file defines the simulation network by extending the existing Veins scenario.
+    ```ned
+    package org.car2x.veins;
+
+    import org.car2x.veins.nodes.RSU;
+    import org.car2x.veins.nodes.Scenario;
+
+    network hello extends Scenario
+    {
+        submodules:
+            rsu[1]: RSU
+            {
+                @display("p=150,140;i=veins/sign/yellowdiamond;is=vs;r=500");
+            }
+    }
+    ```
+    * `import` : make the existing Veins `RSU` and `Scenario` types available to this file.
+    * `network hello extends Scenario` : name the network `hello` and inherit the scenario infrastructure from Veins. Its full name is `org.car2x.veins.hello`.
+    * `submodules` : declare the modules contained in this network.
+    * `rsu[1]: RSU` : create an array containing one RSU, indexed as `rsu[0]`.
+    * `@display` : configure how the RSU is displayed in the OMNeT++ network view.
+        * `p=150,140` : set the graphical layout position of the RSU icon.
+        * `i=veins/sign/yellowdiamond` and `is=vs` : select the icon and its size.
+        * `r=500` : draw a radius indicator of 500 display units. This does not define the actual radio communication range.
+    * The actual RSU coordinates are defined separately in `omnetpp.ini`. Vehicle nodes are created dynamically as vehicles enter the SUMO simulation.
+
+#### `omnetpp.ini`
+* This is the main configuration file for the OMNeT++ simulation.
+* The first part selects the network and configures terminal progress messages.
+    ```ini
+    [General]
+    cmdenv-express-mode = true
+    cmdenv-autoflush = true
+    cmdenv-status-frequency = 1s
+    **.cmdenv-log-level = info
+
+    network = org.car2x.veins.hello
+    ```
+    * `[General]` : define the common settings used by the simulation configurations.
+    * `cmdenv-express-mode = true` : use express mode in the command-line simulation environment, reducing detailed event output.
+    * `cmdenv-autoflush = true` : flush command-line output automatically.
+    * `cmdenv-status-frequency = 1s` : set the progress reporting interval to approximately one second of real elapsed time.
+    * `**.cmdenv-log-level = info` : use the `info` logging level for modules in the command-line environment.
+    * `network` : select the network declared in `lab2.ned`, using its full package name.
+* The next part defines the simulation duration, result recording, and playground dimensions.
+    ```ini
+    debug-on-errors = false
+    print-undisposed = false
+    sim-time-limit = 300s
+
+    **.scalar-recording = true
+    **.vector-recording = true
+
+    *.playgroundSizeX = 500m
+    *.playgroundSizeY = 500m
+    *.playgroundSizeZ = 50m
+    *.annotations.draw = true
+    ```
+    * `debug-on-errors = false` : do not request a debugger break when a simulation error occurs. Errors can still stop the simulation.
+    * `print-undisposed = false` : disable the report of objects left undisposed when the simulation finishes.
+    * `sim-time-limit = 300s` : limit the run to 300 seconds of simulation time.
+    * `scalar-recording` : enable recording of individual numerical results, such as message counts and total distance.
+    * `vector-recording` : enable recording of time-series results, such as vehicle speed at different simulation times.
+    * `playgroundSizeX`, `playgroundSizeY`, and `playgroundSizeZ` : define the dimensions of the OMNeT++ playground as 500m, 500m, and 50m. These settings do not generate or resize the SUMO road network.
+    * `annotations.draw = true` : enable the drawing of annotations in the graphical simulation view.
+* The TraCI manager settings define how OMNeT++ connects to the SUMO launch proxy.
+    ```ini
+    *.manager.updateInterval = 1s
+    *.manager.host = "localhost"
+    *.manager.port = 9999
+    *.manager.autoShutdown = true
+    *.manager.launchConfig = xmldoc("lab2.launchd.xml")
+    ```
+    * `updateInterval = 1s` : update the coupled traffic simulation at one-second simulation intervals.
+    * `host = "localhost"` : connect to the proxy on the same computer.
+    * `port = 9999` : use TCP port 9999 for the proxy connection.
+    * `autoShutdown = true` : allow the manager to end the simulation when SUMO reports no remaining traffic to simulate, even if the time limit has not yet been reached.
+    * `launchConfig` : load the XML launch instructions from `lab2.launchd.xml` in the same directory as this INI file.
+* The RSU settings define its physical position and application parameters.
+    ```ini
+    *.rsu[0].mobility.x = 500
+    *.rsu[0].mobility.y = 500
+    *.rsu[0].mobility.z = 3
+
+    *.rsu[*].applType = "TraCIDemoRSU11p"
+    *.rsu[*].appl.headerLength = 80 bit
+    *.rsu[*].appl.sendBeacons = true
+    *.rsu[*].appl.dataOnSch = false
+    *.rsu[*].appl.beaconInterval = 1s
+    *.rsu[*].appl.beaconUserPriority = 7
+    *.rsu[*].appl.dataUserPriority = 5
+    ```
+    * `rsu[0].mobility.x`, `y`, and `z` : place the RSU at the simulation coordinates (500m, 500m, 3m).
+    * `rsu[*]` : apply the settings to all RSUs. There is one RSU in this network.
+    * `applType = "TraCIDemoRSU11p"` : use the Veins demonstration RSU application, which can relay received traffic update messages.
+    * `headerLength = 80 bit` : set the application header length to 80 bits.
+    * `sendBeacons = true` : enable periodic beacon messages (BSMs).
+    * `dataOnSch = false` : send application data on the control channel (CCH), rather than a service channel (SCH).
+    * `beaconInterval = 1s` : set the nominal beacon interval to one second of simulation time.
+    * `beaconUserPriority = 7` and `dataUserPriority = 5` : assign the MAC user priorities for beacon and data messages. These values affect how messages are mapped to access categories.
+* The connection manager settings control how wireless transmissions are delivered between modules.
+    ```ini
+    *.connectionManager.sendDirect = true
+    *.connectionManager.maxInterfDist = 2600m
+    *.connectionManager.drawMaxIntfDist = false
+    ```
+    * `sendDirect = true` : deliver wireless transmissions directly between the relevant simulation modules.
+    * `maxInterfDist = 2600m` : set the maximum interference distance used by the connection manager. It is not a guarantee that a packet can be decoded at this distance.
+    * `drawMaxIntfDist = false` : do not draw the maximum interference distance in the graphical view.
+* The IEEE 1609.4 MAC settings define channel use, transmit power, and bitrate.
+    ```ini
+    *.**.nic.mac1609_4.useServiceChannel = false
+    *.**.nic.mac1609_4.txPower = 20mW
+    *.**.nic.mac1609_4.bitrate = 6Mbps
+    ```
+    * `useServiceChannel = false` : disable switching between the control channel and service channel in the default configuration.
+    * `txPower = 20mW` : set the radio transmit power to 20 milliwatts.
+    * `bitrate = 6Mbps` : set the transmission bitrate to 6 megabits per second.
+    * The `*.**.nic` pattern applies these settings to matching network interfaces of both vehicles and the RSU.
+* The IEEE 802.11p PHY settings define reception sensitivity, background noise, and radio models.
+    ```ini
+    *.**.nic.phy80211p.minPowerLevel = -89dBm
+    *.**.nic.phy80211p.useNoiseFloor = true
+    *.**.nic.phy80211p.noiseFloor = -110dBm
+    *.**.nic.phy80211p.decider = xmldoc("config.xml")
+    *.**.nic.phy80211p.analogueModels = xmldoc("config.xml")
+    *.**.nic.phy80211p.usePropagationDelay = true
+    ```
+    * `minPowerLevel = -89dBm` : set the minimum received power threshold used by the PHY reception model. A signal above this threshold is not necessarily decoded successfully, because noise and interference also matter.
+    * `useNoiseFloor = true` and `noiseFloor = -110dBm` : include a background noise floor of -110dBm.
+    * `decider` : read the reception decision model from `config.xml`.
+    * `analogueModels` : read the signal propagation models from the same XML file.
+    * `usePropagationDelay = true` : account for the time required for radio signals to travel between nodes.
+* The vehicle application settings enable the Veins demonstration application and periodic beacons.
+    ```ini
+    *.node[*].applType = "TraCIDemo11p"
+    *.node[*].appl.headerLength = 80 bit
+    *.node[*].appl.sendBeacons = true
+    *.node[*].appl.dataOnSch = false
+    *.node[*].appl.beaconInterval = 1s
+    ```
+    * `node[*]` : apply the settings to all vehicle nodes created by the manager.
+    * `applType = "TraCIDemo11p"` : use the Veins demonstration vehicle application, which can generate and forward traffic warnings when vehicles remain stopped.
+    * `headerLength = 80 bit` : set the application header length to 80 bits.
+    * `sendBeacons = true` and `beaconInterval = 1s` : enable BSMs with a nominal one-second interval.
+    * `dataOnSch = false` : use the control channel for application data in the default configuration.
+* The mobility settings select the vehicle mobility module and configure scheduled accidents.
+    ```ini
+    *.node[*].veinsmobilityType = "Lab2TraCIMobility"
+    *.node[*].veinsmobility.x = 0
+    *.node[*].veinsmobility.y = 0
+    *.node[*].veinsmobility.z = 1.895
+    *.node[*0].veinsmobility.accidentCount = 1
+    *.node[*0].veinsmobility.accidentStart = 75s
+    *.node[*0].veinsmobility.accidentDuration = 50s
+    ```
+    * `veinsmobilityType = "Lab2TraCIMobility"` : select the project's TraCI mobility variant for the local environment.
+    * `x = 0` and `y = 0` : provide the configured mobility coordinates; actual vehicle positions are supplied and updated through TraCI from SUMO.
+    * `z = 1.895` : set the vehicle mobility height to 1.895m.
+    * `node[*0]` : match vehicle indices ending in `0`, such as `node[0]`, `node[10]`, and `node[20]`.
+    * `accidentCount = 1` : schedule one accident for each matching vehicle.
+    * `accidentStart = 75s` : schedule the accident 75 seconds after that vehicle's mobility module is initialized. It is not necessarily absolute simulation time 75s.
+    * `accidentDuration = 50s` : request a speed of zero for 50 seconds, then release the speed override so that SUMO can control the vehicle again. This represents an accident by stopping the vehicle; it does not require two vehicles to collide visually.
+    * A scheduled accident can only occur if the corresponding vehicle is still present in the simulation at that time.
+* The final part defines an alternative configuration with channel switching.
+    ```ini
+    [Config WithChannelSwitching]
+    *.**.nic.mac1609_4.useServiceChannel = true
+    *.node[*].appl.dataOnSch = true
+    *.rsu[*].appl.dataOnSch = true
+    ```
+    * `[Config WithChannelSwitching]` : define a named configuration that inherits the common settings from `[General]`.
+    * `useServiceChannel = true` : enable MAC switching between the control channel and service channel.
+    * `dataOnSch = true` : send vehicle and RSU application data on a service channel. Beacons remain on the control channel.
+    * The other simulation, traffic, and radio settings remain inherited from `[General]`.
+
+#### `lab2.launchd.xml`
+* This file specifies the SUMO inputs to copy when the traffic simulation is launched.
+    ```xml
+    <launch>
+        <basedir path="../../Lab1"/>
+        <copy file="lab1.net.xml"/>
+        <copy file="lab1.rou.xml"/>
+        <copy file="lab1.add.xml"/>
+        <copy file="lab1.sumo.cfg" type="config"/>
+    </launch>
+    ```
+    * `<launch>` : contain the launch instructions passed to the SUMO proxy.
+    * `basedir` : specify where the proxy finds the source files. In the project's launch setup, `../../Lab1` resolves to the existing Lab1 directory from the proxy's working directory.
+    * `<copy>` : copy each required file into the temporary directory used for a SUMO run.
+    * `lab1.net.xml` : supply the generated road network.
+    * `lab1.rou.xml` : supply the vehicle types, routes, departure schedules, and bus stopping instructions.
+    * `lab1.add.xml` : supply the bus stop definitions.
+    * `lab1.sumo.cfg` and `type="config"` : identify the main SUMO configuration file to load.
+    * Lab2 reuses the Lab1 traffic inputs rather than defining another road network in this file.
+
+#### `config.xml`
+* This file defines the radio propagation and reception models referenced by `omnetpp.ini`.
+    ```xml
+    <root>
+        <AnalogueModels>
+            <AnalogueModel type="SimplePathlossModel">
+                <parameter name="alpha" type="double" value="2.0"/>
+            </AnalogueModel>
+        </AnalogueModels>
+        <Decider type="Decider80211p">
+            <!-- The center frequency on which the phy listens -->
+            <parameter name="centerFrequency" type="double" value="5.890e9"/>
+        </Decider>
+    </root>
+    ```
+    * `<root>` : contain the propagation model and reception decision model configurations.
+    * `<AnalogueModels>` : list the models applied to transmitted radio signals.
+    * `type="SimplePathlossModel"` : use a distance-based signal attenuation model.
+    * `alpha` : the path-loss exponent. With `value="2.0"`, received power decreases approximately with the square of distance when the other conditions remain the same.
+    * `type="double"` : interpret the parameter value as a floating-point number.
+    * `<Decider type="Decider80211p">` : select the model that evaluates whether an IEEE 802.11p reception succeeds, taking signal quality into account.
+    * `centerFrequency = 5.890e9` : set the listening center frequency to 5.890 billion hertz, or 5.89GHz.

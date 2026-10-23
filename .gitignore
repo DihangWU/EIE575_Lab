@@ -1,3 +1,7 @@
 Documents/
-Maple.md
-Lab2/
+/Lab2/out/
+/Lab2/results/
+/Lab2/runtime/
+__pycache__/
+*.pyc
+README_zh.md

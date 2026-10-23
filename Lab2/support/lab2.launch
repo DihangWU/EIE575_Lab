@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launchConfiguration type="org.omnetpp.launch.simulationLaunchConfigurationType">
+    <stringAttribute key="org.eclipse.cdt.launch.PROJECT_ATTR" value="/lab2"/>
+    <stringAttribute key="org.omnetpp.launch.WORKING_DIRECTORY" value="/lab2/runtime"/>
+    <stringAttribute key="org.omnetpp.launch.EXECUTABLE" value=""/>
+    <stringAttribute key="org.omnetpp.launch.INI_FILES" value="../core/omnetpp.ini"/>
+    <stringAttribute key="org.omnetpp.launch.CONFIG_NAME" value="General"/>
+    <stringAttribute key="org.omnetpp.launch.RUN" value="0"/>
+    <stringAttribute key="org.omnetpp.launch.USER_INTERFACE" value="Qtenv"/>
+    <stringAttribute key="org.omnetpp.launch.ADDITIONAL_ARG" value="--result-dir=${workspace_loc:/lab2}/../results"/>
+    <stringAttribute key="org.omnetpp.launch.NED_PATH" value="${workspace_loc:/lab2}/../out/ned;${workspace_loc:/lab2}/compat"/>
+    <stringAttribute key="org.omnetpp.launch.IMAGE_PATH" value="${opp_image_path:/lab2}"/>
+    <stringAttribute key="org.omnetpp.launch.SHARED_LIBS" value="${opp_shared_libs:/veins} /lab2/out/lab2"/>
+    <booleanAttribute key="org.omnetpp.launch.USE_BATCHING" value="false"/>
+    <intAttribute key="org.omnetpp.launch.BUILD_BEFORE_LAUNCH" value="2"/>
+</launchConfiguration>

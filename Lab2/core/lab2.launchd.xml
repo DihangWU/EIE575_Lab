@@ -1,0 +1,7 @@
+<launch>
+    <basedir path="../../Lab1"/>
+    <copy file="lab1.net.xml"/>
+    <copy file="lab1.rou.xml"/>
+    <copy file="lab1.add.xml"/>
+    <copy file="lab1.sumo.cfg" type="config"/>
+</launch>
