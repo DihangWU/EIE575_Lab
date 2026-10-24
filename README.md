@@ -548,8 +548,8 @@ cd ~/Desktop/EIE575_Lab
 ### The capture of Lab2
 <!-- ![alt text](report/images/image3_Lab2.png) -->
 ![alt text](report/images/image4_Lab2_all-vehicle-speed.png)
-![alt text](report/images/mage4_Lab2_bsm-counts.png)
-![alt text](report/images/mage4_Lab2_node0-speed.png)
+![alt text](report/images/image4_Lab2_bsm-counts.png)
+![alt text](report/images/image4_Lab2_node0-speed.png)
 
 ##  Simulation Results Analyse
 ### analyse from node[0] speed chart
@@ -571,4 +571,5 @@ cd ~/Desktop/EIE575_Lab
 * the vehicle0 recieved and send more messages than other bus because it suffered the accident so it stayed in simulation longer than other bus.
 
 ##  Modify Parameters
-
+![alt text](report/images/image5_change_para.png)
+![alt text](report/images/image5_Lab3.png)
