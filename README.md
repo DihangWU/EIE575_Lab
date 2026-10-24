@@ -5,6 +5,15 @@ Student ID: 26040407g
 
 This experiment refers to the tutorial PDFs, but the environment was replaced from Windows to Linux after completing the experiment in class, and minor modifications were made.
 
+The video of Lab1:
+
+https://github.com/user-attachments/assets/75cbb06a-1179-4c84-9dbd-ad362f6b3fdc
+
+The video of Lab2:
+
+https://github.com/user-attachments/assets/283332c9-9042-4945-bee5-9da6b6e73f88
+
+
 ## The Development Environment
 
 | Tools | Version | Local Path |
@@ -579,3 +588,10 @@ cd ~/Desktop/EIE575_Lab
 ![alt text](report/images/image5_all-vehicle-speed.png)
 ![alt text](report/images/image5_bsm-counts.png)
 ![alt text](report/images/image5_node0-speed.png)
+
+
+https://github.com/user-attachments/assets/fe1a3ed7-bb26-4647-8221-f51a071b4efb
+
+
+
+
