@@ -546,7 +546,7 @@ cd ~/Desktop/EIE575_Lab
 * If a SUMO proxy was already running before the display settings were updated, restart it with the command above and start a new simulation run to apply the display settings.
 
 ### The capture of Lab2
-<!-- ![alt text](report/images/image3_Lab2.png) -->
+![alt text](report/images/image3_Lab2.png)
 ![alt text](report/images/image4_Lab2_all-vehicle-speed.png)
 ![alt text](report/images/image4_Lab2_bsm-counts.png)
 ![alt text](report/images/image4_Lab2_node0-speed.png)
@@ -572,7 +572,7 @@ cd ~/Desktop/EIE575_Lab
 
 ##  Modify Parameters
 * the parameter of the max speed limit was changed from 16.667 to 8 m/s
-* the schedule accident start time was changed from 75 s to 30 s, and duration is shrinked from 50s to 30s
+* the schedule accident start time was changed from 75 s to 30 s, and duration is shrinked from 50s to 0s
 * the output plot present a hug difference
 ![alt text](report/images/image5_change_para.png)
 ![alt text](report/images/image5_Lab3.png)
