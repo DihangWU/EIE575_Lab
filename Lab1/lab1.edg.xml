@@ -1,6 +1,6 @@
 <edges>
-    <edge from="1" id="1to2" to="2" numLanes="2" speed="16.667" sidewalkWidth="1"/>
-    <edge from="2" id="2to1" to="1" numLanes="2" speed="16.667" sidewalkWidth="1"/>
+    <edge from="1" id="1to2" to="2" numLanes="2" speed="8" sidewalkWidth="1"/>
+    <edge from="2" id="2to1" to="1" numLanes="2" speed="8" sidewalkWidth="1"/>
 
     <roundabout edges="1to2 2to1"/>
     <roundabout edges="2to1 1to2"/>

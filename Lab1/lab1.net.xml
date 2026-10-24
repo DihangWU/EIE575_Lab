@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- generated on 2026-10-23 14:21:11 by Eclipse SUMO netconvert Version 1.22.0
+<!-- generated on 2026-10-24 16:18:12 by Eclipse SUMO netconvert Version 1.22.0
 <netconvertConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/netconvertConfiguration.xsd">
 
     <input>
@@ -40,14 +40,14 @@
     </edge>
 
     <edge id="1to2" from="1" to="2" priority="-1">
-        <lane id="1to2_0" index="0" allow="pedestrian" speed="16.67" length="200.00" width="1.00" shape="0.00,-6.90 200.00,-6.90"/>
-        <lane id="1to2_1" index="1" disallow="pedestrian" speed="16.67" length="200.00" shape="0.00,-4.80 200.00,-4.80"/>
-        <lane id="1to2_2" index="2" disallow="pedestrian" speed="16.67" length="200.00" shape="0.00,-1.60 200.00,-1.60"/>
+        <lane id="1to2_0" index="0" allow="pedestrian" speed="8.00" length="200.00" width="1.00" shape="0.00,-6.90 200.00,-6.90"/>
+        <lane id="1to2_1" index="1" disallow="pedestrian" speed="8.00" length="200.00" shape="0.00,-4.80 200.00,-4.80"/>
+        <lane id="1to2_2" index="2" disallow="pedestrian" speed="8.00" length="200.00" shape="0.00,-1.60 200.00,-1.60"/>
     </edge>
     <edge id="2to1" from="2" to="1" priority="-1">
-        <lane id="2to1_0" index="0" allow="pedestrian" speed="16.67" length="200.00" width="1.00" shape="200.00,6.90 0.00,6.90"/>
-        <lane id="2to1_1" index="1" disallow="pedestrian" speed="16.67" length="200.00" shape="200.00,4.80 0.00,4.80"/>
-        <lane id="2to1_2" index="2" disallow="pedestrian" speed="16.67" length="200.00" shape="200.00,1.60 0.00,1.60"/>
+        <lane id="2to1_0" index="0" allow="pedestrian" speed="8.00" length="200.00" width="1.00" shape="200.00,6.90 0.00,6.90"/>
+        <lane id="2to1_1" index="1" disallow="pedestrian" speed="8.00" length="200.00" shape="200.00,4.80 0.00,4.80"/>
+        <lane id="2to1_2" index="2" disallow="pedestrian" speed="8.00" length="200.00" shape="200.00,1.60 0.00,1.60"/>
     </edge>
 
     <junction id="1" type="priority" x="0.00" y="0.00" incLanes="2to1_0 2to1_1 2to1_2" intLanes=":1_0_0" shape="0.00,0.00 0.00,7.40 0.00,0.00">

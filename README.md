@@ -571,5 +571,11 @@ cd ~/Desktop/EIE575_Lab
 * the vehicle0 recieved and send more messages than other bus because it suffered the accident so it stayed in simulation longer than other bus.
 
 ##  Modify Parameters
+* the parameter of the max speed limit was changed from 16.667 to 8 m/s
+* the schedule accident start time was changed from 75 s to 30 s, and duration is shrinked from 50s to 30s
+* the output plot present a hug difference
 ![alt text](report/images/image5_change_para.png)
 ![alt text](report/images/image5_Lab3.png)
+![alt text](report/images/image5_all-vehicle-speed.png)
+![alt text](report/images/image5_bsm-counts.png)
+![alt text](report/images/image5_node0-speed.png)

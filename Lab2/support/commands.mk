@@ -14,6 +14,7 @@ LAB2_OUT_DIR := $(abspath $(LAB2_SUPPORT_DIR)/../out)
 LAB2_NED_DIR := $(LAB2_OUT_DIR)/ned
 LAB2_RESULTS_DIR := $(abspath $(LAB2_SUPPORT_DIR)/../results)
 LAB2_RUNTIME_DIR := $(abspath $(LAB2_SUPPORT_DIR)/../runtime)
+LAB2_CHART_WORKSPACE ?= /tmp/eie575_lab2_chart_workspace
 PROJECT_ROOT := $(abspath $(LAB2_SUPPORT_DIR)/../..)
 export PATH := $(OMNETPP_ROOT)/bin:$(PATH)
 
@@ -87,5 +88,8 @@ lab2-omnetpp-qtenv: lab2-build
 	  --result-dir="$(LAB2_RESULTS_DIR)" $(LAB2_ARGS) "$(LAB2_CORE_DIR)/omnetpp.ini"
 
 lab2-opp-charttool:
+	mkdir -p "$(LAB2_CHART_WORKSPACE)"
 	cd "$(LAB2_SUPPORT_DIR)" && "$(OMNETPP_ROOT)/bin/opp_charttool" imageexport lab2.anf \
-	  -p "/veins=$(VEINS_ROOT)" -f png -d "$(LAB2_RESULTS_DIR)/plots" --dpi 150
+	  -w "$(LAB2_CHART_WORKSPACE)" \
+	  -p "/lab2=$(LAB2_SUPPORT_DIR)" "/veins=$(VEINS_ROOT)" \
+	  -f png -d "$(LAB2_RESULTS_DIR)/plots" --dpi 150
