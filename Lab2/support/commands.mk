@@ -37,7 +37,7 @@ help:
 	  'Stop the old proxy with Ctrl+C before switching proxy modes.'
 
 lab2-netconvert:
-	$(MAKE) -C "$(PROJECT_ROOT)" lab1-netconvert
+	$(MAKE) -C "$(PROJECT_ROOT)/Lab1" lab1-netconvert
 
 lab2-opp-nedtool: lab2-netconvert
 	test -r "$(VEINS_ROOT)/src/libveins.so"
@@ -65,7 +65,8 @@ lab2-veins-launchd-sumo: lab2-netconvert
 	cd "$(LAB2_SUPPORT_DIR)" && "$(VEINS_ROOT)/bin/veins_launchd" -vv -c "$(SUMO)"
 
 lab2-veins-launchd-sumo-gui: lab2-netconvert
-	cd "$(LAB2_SUPPORT_DIR)" && "$(VEINS_ROOT)/bin/veins_launchd" -vv -c "$(SUMO_GUI)"
+	cd "$(LAB2_SUPPORT_DIR)" && "$(VEINS_ROOT)/bin/veins_launchd" -vv -s \
+	  -c "'$(SUMO_GUI)' {} --gui-settings-file '$(PROJECT_ROOT)/Lab1/lab1.sumo_gui_settings.xml' --delay 100"
 
 lab2-omnetpp-cmdenv: lab2-build
 	mkdir -p "$(LAB2_RUNTIME_DIR)" "$(LAB2_RESULTS_DIR)"

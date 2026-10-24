@@ -237,21 +237,22 @@ Lab1 模拟了一个 SUMO 道路交通场景，包括：
     ```
     * `real world` 方案改变道路、车辆和背景的外观。
     * 它不会使仿真时间等于现实时间，也不会改变交通模型。
-    * 此文件由根目录 Makefile 中的 `--gui-settings-file` 参数加载。
+    * 此文件由 `Lab1/Makefile` 中的 `--gui-settings-file` 参数加载。
 
 ### 在 Linux 上运行 Lab1
 
 从工程根目录运行。要在 SUMO GUI 中观察交通：
 
 ```shell
-make lab1-sumo-gui
+make -C Lab1 lab1-sumo-gui
 ```
 
-点击 SUMO 运行按钮以开始。此命令会在需要时自动生成道路网络。要在没有图形窗口的情况下运行，改用 `make lab1-sumo`。只想生成或更新路网时，使用 `make lab1-netconvert`。
+点击 SUMO 运行按钮以开始。此命令会在需要时自动生成道路网络。要在没有图形窗口的情况下运行，改用 `make -C Lab1 lab1-sumo`。只想生成或更新路网时，使用 `make -C Lab1 lab1-netconvert`。
 
 * Makefile 使用的 GUI 命令为：
     ```shell
-    sumo-gui -c Lab1/lab1.sumo.cfg --gui-settings-file Lab1/lab1.sumo_gui_settings.xml --delay 100
+    cd Lab1
+    sumo-gui -c lab1.sumo.cfg --gui-settings-file lab1.sumo_gui_settings.xml --delay 100
     ```
     * `-c`：指定主仿真配置。
     * `--gui-settings-file`：指定显示配置。

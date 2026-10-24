@@ -1,7 +1,9 @@
+.marscode/
 Documents/
 /Lab2/out/
 /Lab2/results/
 /Lab2/runtime/
 __pycache__/
 *.pyc
-README_zh.md
+.metadata
+.settings
